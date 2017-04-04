@@ -1,5 +1,5 @@
 ## EoenYoubbs
-#### ~~Youbbs-EOEN~~
+### ~~Youbbs-EOEN~~
 ---
 EoenYoubbs 是 [Youbbs v1.04](https://github.com/ego008/youbbs) 的分支版本
 
@@ -9,7 +9,7 @@ EoenYoubbs从2.0版本开始发布并在GITHUB上进行了开源
 
 目前有计划进行一次比较大的更新操作，更倾向于社交而不是论坛
 
-EoenYoubbs v2.2.0版本下载地址：[点我开始下载](https://github.com/ego008/saepy-log/archive/master.zip)
+EoenYoubbs v2.2.0版本下载地址：[点我开始下载](https://github.com/eoen/EoenYoubbs/archive/master.zipp)
 
 EoenYoubbs v2.2.0版本Demo地址：[点我访问站点](http://youbbs.eoen.org)
 
