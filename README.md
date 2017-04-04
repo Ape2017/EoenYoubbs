@@ -1,4 +1,5 @@
-## EoenYoubbs   
+## EoenYoubbs
+#### ~~Youbbs-EOEN~~
 ---
 EoenYoubbs 是 [Youbbs v1.04](https://github.com/ego008/youbbs) 的分支版本
 
