@@ -1,0 +1,8 @@
+title: YouBBS EOEN 开发版
+description: info@eoen.org
+google_analytics: 
+show_downloads: true
+theme: jekyll-theme-architect
+
+gems:
+  - jekyll-mentions
