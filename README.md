@@ -1,17 +1,20 @@
-## EoenYoubbs
-### ~~Youbbs-EOEN~~
+## 全新的EoenYoubbs v2.3版本发布（更倾向于社交）
+
+### EoenYoubbs v2.3版本预览地址：[youbbs.eoen.org](http://youbbs.eoen.org/)
+
+### EoenYoubbs v2.2版本预览地址：[dev.1111.link](http://dev.1111.link/)
 ---
-EoenYoubbs 是 [Youbbs v1.04](https://github.com/ego008/youbbs) 的分支版本
+EoenYoubbs是[Youbbs v1.04](http://youbbs.sinaapp.com/)版本的洐生版本，EoenYoubbs从2.0开始发布。
 
-EoenYoubbs从2.0版本开始发布并在GITHUB上进行了开源
+此2.3版本和之前的2.0版本相对比，变更特别大，该版本更倾向于社交！
 
-截止至2017-04-05日目前EoenYoubbs最新版本为2.2.0版本
+现在这个版本和之前的2.0、2.1、2.2版本有什么区别？
 
-目前有计划进行一次比较大的更新操作，更倾向于社交而不是论坛
+1、前端模板更新（电脑版、手机版）提升阅读能力和用户体验；
+2、在首页就可以看到帖子的信息内容，不用点击进去了；
+3、可以直接粘贴网易音乐链接（发布后不能播放是因为版权问题）；
+4、。。。。。。。（P·S：太多了，懒的写）
 
-EoenYoubbs v2.2.0版本下载地址：[点我开始下载](https://github.com/eoen/EoenYoubbs/archive/master.zipp)
-
-EoenYoubbs v2.2.0版本Demo地址：[点我访问站点](http://youbbs.eoen.org)
 
 
-`此文档最后更新时间 2017-04-05 am 2:30`
+`此文档最后更新时间 2017-04-10 am 0:30`
