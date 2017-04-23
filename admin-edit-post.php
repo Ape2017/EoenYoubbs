@@ -75,7 +75,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         $oldtags = $t_obj['tags'];
         
         $p_title = htmlspecialchars($p_title);
-        $p_content = nl2br($p_content);
+        $p_content = htmlspecialchars($p_content);
         $DBS->unbuffered_query("UPDATE yunbbs_articles SET cid='$p_cid', title='$p_title', content='$p_content', tags='$p_tags', closecomment='$p_closecomment', visible='$p_visible', isred='$p_isred', top='$p_top', fop='$p_fop' WHERE id='$tid'");
         if($p_cid != $old_cid){
             $DBS->unbuffered_query("UPDATE yunbbs_categories SET articles=articles+1 WHERE id='$p_cid'");

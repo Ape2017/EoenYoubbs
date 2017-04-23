@@ -263,9 +263,9 @@ function set_content_rich($text, $spider='0'){
         $text = substr($text, 1);
     }
 
-    //$text = preg_replace("/\s{4,}/", '</p><p>', $text);
+    $text = preg_replace("/\s{4,}/", '</p><p>', $text);
     //$text = str_replace("\r\n", '<br/>', $text);
-    //$text = str_replace("<p></p>", '', $text);
+    $text = str_replace("<p></p>", '', $text);
 
     return $text;
 }

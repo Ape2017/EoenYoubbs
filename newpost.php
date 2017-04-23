@@ -66,7 +66,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         if($p_title){
             if(mb_strlen($p_title,'utf-8')<=$options['article_title_max_len'] && mb_strlen($p_content,'utf-8')<=$options['article_content_max_len']){
                 $p_title = htmlspecialchars($p_title);
-                $p_content = nl2br($p_content);
+                $p_content = htmlspecialchars($p_content);
                 $p_tags = htmlspecialchars($p_tags);
                 $DBS->query("INSERT INTO yunbbs_articles (id,cid,uid,title,content,tags,addtime,edittime) VALUES (null,$cid,$cur_uid, '$p_title', '$p_content', '$p_tags', $timestamp, $timestamp)");
                 $new_aid = $DBS->insert_id();
