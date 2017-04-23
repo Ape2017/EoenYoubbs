@@ -108,6 +108,8 @@ img.avatar{border-radius:4px}
 .box-user-name span.gz{float:right;margin:9px 15px 0 0;font-size:13px}
 .box-text-center{padding:15px 10px}
 .box-text-center h2{padding-bottom:10px;font-size:1pc;font-weight:600}
+.box-text-center h2 .topspanred { color: #fc6b50; }
+.box-text-center h2 .topspan { color: #31bd8e; }
 .box-text-center img, .main-box-content-text p img { max-width: 100%; margin: 5px 0 0; }
 .box-text-center p{font-size:15px;color:#666;line-height:23px;margin-bottom:5px}
 .box-footer{padding:5px 15px 0;height:30px;border-top:1px solid #f9f9f9}

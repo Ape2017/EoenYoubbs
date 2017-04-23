@@ -194,7 +194,7 @@ p .linkk{color:#444;padding:1px;border:1px solid #888;margin:2px;background-colo
 .item-count a:visited{color:#999;background-color:#e5e5e5}
 .item-content h1{font-size:1pc;line-height:130%;margin-bottom:8px;min-height:10px}
 h1 .topspan{color:#31bd8e;font-size:1pc;font-weight:600}
-h1 .topspanred{font-size:15px}
+h1 .topspanred { font-size: 1pc; color: #fc6b50; }
 .node-detail{border-bottom:1px solid #efefef;margin-bottom:15px}
 .node-img{float:left;margin:0 10px 10px 0;height:73px;width:73px}
 .nodesm{font-size:12.3px;line-height:1pc;margin-bottom:8px;color:#777}
