@@ -286,7 +286,7 @@ a.leftnotic{float:left}
 .sider-box-content ul li{color:#999;width:250px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:10px;line-height:1.2em}
 .sider-box-content ul li a{color:#333}
 .sider-box-content ul li a:hover{color:#666}
-.footer-wrap{width:100%;min-width:60pc;margin-bottom:20px;color:gray;background-color:hsla(0,0%,100%,0);border-top:1px solid rgba(0,0,0,.22)}
+.footer-wrap { width: 100%; min-width: 60pc; padding-bottom: 20px; color: #999; background-color: #ffffff; border-top: 1px solid rgba(0,0,0,.0975); }
 .footer a{color:gray}
 .footericp{float:right;margin-top:-15px}
 .footer{width:60pc;margin:0 auto;font-size:9pt}

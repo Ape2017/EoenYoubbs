@@ -65,6 +65,22 @@ ob_start();echo '
     </div>
     <div class="c"></div>
 </div>';
+echo'<div class="footer-wrap">
+		<div class="footer">
+			<div class="sep10"></div>
+			<div class="sep10"></div>
+			Lovingly made by <a href="https://github.com/eoen/EoenYoubbs" target="_blank">EOEN</a><div class="sep5"></div>
+			Proudly Powered by <a href="https://www.youbbs.org/" target="_blank">YouBBS</a><div class="footericp">';
+			if($options['icp']){
+				echo '<div class="sep5"></div><a href="http://www.miibeian.gov.cn/" target="_blank" rel="nofollow">',$options['icp'],'</a>';
+			}
+			if($options['show_debug']){
+				$mtime = explode(' ', microtime());
+				$totaltime = number_format(($mtime[1] + $mtime[0] - $starttime), 6);
+				echo '<div class="sep5"></div>Processed in ',$totaltime,' second(s), ',$DBS->querycount,' queries';
+			}echo'
+		</div>
+	</div>';
 if($options['analytics_code']){
     echo $options['analytics_code'];
 }
