@@ -395,7 +395,7 @@ ul.layui-tab-title{background-color:#fff;border-bottom:1px solid #f5f5f5}
 .layui-nav .layui-nav-item a{color:#333;font-size:13px;font-weight:600;border-bottom:1px dashed rgba(0,0,0,.0975);padding:0}
 .layui-nav .layui-nav-item a i.not{display:none}
 .layui-nav .layui-nav-item a i.read{display:inline-block;width:10px;height:10px;background-color:#28cc9e;border-radius:50px;position:absolute;right:5px;top:18px}
-.layui-nav .layui-nav-item a img{border-radius:50px;width:35px;margin:3px 10px 3px 3px}
+.layui-nav .layui-nav-item a img { border-radius: 50px; width: 35px; height: 35px; margin: 3px 10px 3px 3px; }
 .layui-nav-item a b{float:right;margin:0 10px 0 0;font-size:9pt;font-weight:400;color:#333}
 .layui-nav-tree .layui-nav-item a:hover,.layui-nav-tree .layui-this>a{background-color:#fafafa;color:#333}
 .layui-nav-tree .layui-this{background-color:#fff;color:#fff}

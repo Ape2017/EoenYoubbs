@@ -47,7 +47,7 @@ echo '
 	</div>
 </div>
 <style type="text/css">
-.header-wrap {display: none;}
+.header-wrap,.footer-wrap {display: none;}
 .layui-tab-brief > .layui-tab-title .layui-this {color: #333;}
 </style>
 <script type="text/javascript">
