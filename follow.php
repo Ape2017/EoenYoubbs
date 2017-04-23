@@ -23,11 +23,13 @@ if($act && $tid > 0){
     if($act == 'add'){
         // 添加关注
          $DBS->query("INSERT ignore INTO `yunbbs_follow`(`ID`, `UserID`, `ObjID`, `Type`, `FollowTime`) VALUES (null,$cur_uid,$tid,0, $timestamp)");
+		 $DBS->unbuffered_query("UPDATE yunbbs_users SET fuer=fuer+1 WHERE id='$cur_uid'");
          $new_mid = $DBS->insert_id();
          echo 1;
     }else if($act == 'del'){
         // 取消关注
         $DBS->unbuffered_query("Delete from yunbbs_follow WHERE ObjID='$tid' and UserID='$cur_uid' and Type=0");
+		$DBS->unbuffered_query("UPDATE yunbbs_users SET fuer=fuer-1 WHERE id='$cur_uid'");
        echo 1;
     }else if($act == 'isfo'){
         //  是否关注过此用户
@@ -63,7 +65,7 @@ if($page<=0 || $total_page == 0){
     $page = $total_page;
 }
 
-$query_sql = "SELECT a.id,a.cid,a.uid,a.ruid,a.title,a.addtime,a.edittime,a.comments,a.isred,c.name as cname,u.avatar as uavatar,u.name as author,ru.name as rauthor
+$query_sql = "SELECT a.id,a.cid,a.uid,a.ruid,a.title,a.addtime,a.content,a.views,a.edittime,a.comments,a.isred,c.name as cname,u.avatar as uavatar,u.name as author,ru.name as rauthor
     FROM `yunbbs_follow` f
     inner join `yunbbs_users` u ON f.ObjID=u.id
     inner join `yunbbs_articles` a ON a.uid=u.id
@@ -77,14 +79,35 @@ $articledb=array();
 while ($article = $DBS->fetch_array($query)) {
     // 格式化内容
     if($article['isred'] == '1'){
-         $article['title'] = "<span class=\"label label-success\">推荐</span>".$article['title'];
+         $article['title'] = $article['title']."<span class=\"label label-success\">推荐</span>";
      }
     $article['addtime'] = showtime($article['addtime']);
     $article['edittime'] = showtime($article['edittime']);
+	$article['content'] = set_content($article['content'], 1);
     $articledb[] = $article;
 }
 unset($article);
 $DBS->free_result($query);
+
+
+//我关注的人
+$quero = "SELECT a.ID,a.UserID,a.Type,a.ObjID,a.FollowTime,u.name,u.avatar
+    FROM yunbbs_follow a 
+    LEFT JOIN yunbbs_users u ON a.ObjID=u.id
+    WHERE a.UserID=$cur_uid and Type=0 ORDER BY a.FollowTime DESC";
+$leavin = $DBS->query($quero);
+$leavindb=array();
+while ($leaving = $DBS->fetch_array($leavin)) {
+	// 格式化内容
+	$leavindb[] = $leaving;
+}
+unset($leaving);
+$DBS->free_result($leavin);
+
+$follouser = "SELECT fuer FROM yunbbs_users WHERE id='$cur_uid'";
+$uu_obj = $DBS->fetch_one_array($follouser);
+
+
 
 // 页面变量
 $title = '我关注的用户';

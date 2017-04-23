@@ -209,7 +209,7 @@ if($t_obj['tags']){
 
     if($relative_info === FALSE){
         // 设置相关文章数
-        $post_relative_num = 10;
+        $post_relative_num = 20;
 
         $relative_ids = array();
         $relative_topics = array();
@@ -219,7 +219,7 @@ if($t_obj['tags']){
         $new_tag_list = array();
         foreach($tag_list as $tag){
             $tag_obj = $DBS->fetch_one_array("SELECT * FROM `yunbbs_tags` WHERE `name`='".$tag."'");
-            $new_tag_list[] = '<a href="/tag/'.$tag.'">'.$tag.'</a>';
+            $new_tag_list[] = '<a href="/tag/'.$tag.'">#'.$tag.'</a>';
             $relative_ids[] = $tag_obj['ids'];
         }
         // set new tags
@@ -285,6 +285,11 @@ if($t_obj['tags']){
         $t_obj['relative_tags'] = $relative_info['relative_tags'];
     }
 }
+
+//获取用户签名
+$g_mid = $t_obj['uid'];
+$quero = "SELECT id,name,flag,avatar,url,articles,replies,regtime,about FROM yunbbs_users WHERE id='$g_mid'";
+$m_obj = $DBS->fetch_one_array($quero);
 
 // 获取相关文章 end, 真费劲，没有缓存最好不用
 

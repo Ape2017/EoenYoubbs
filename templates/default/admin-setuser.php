@@ -1,6 +1,11 @@
 <?php 
 if (!defined('IN_SAESPOT')) exit('error: 403 Access Denied'); 
 echo '
+<div class="main-wrap">
+    <div class="main">
+        <div class="main-content">
+
+
 <a name="4"></a>
 <div class="title">设置用户权限 <span class="red">',$m_obj['name'],'</span></div>
 <div class="main-box">

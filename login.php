@@ -4,7 +4,6 @@ define('CURRENT_DIR', pathinfo(__FILE__, PATHINFO_DIRNAME));
 
 include(CURRENT_DIR . '/config.php');
 include(CURRENT_DIR . '/common.php');
-require_once(CURRENT_DIR . '/include/GoogleAuth/GoogleAuth.php');
 
 /*
 // 屏蔽下面几行可以通过 用户名和密码 登录
@@ -34,13 +33,10 @@ if($cur_user){
 
 $errors = array();
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
-    //if(empty($_SERVER['HTTP_REFERER']) || $_POST['formhash'] != formhash() || preg_replace("/https?:\/\/([^\:\/]+).*/i", "\\1", $_SERVER['HTTP_REFERER']) !== preg_replace("/([^\:]+).*/", "\\1", $_SERVER['HTTP_HOST'])) {
-    	//exit('403: unknown referer.');
-   // }
     
     $name = addslashes(strtolower(trim($_POST["name"])));
     $pw = addslashes(trim($_POST["pw"]));
-    $gcode = $_POST["gauth"];
+    @$gcode = $_POST["gauth"];
 
     $seccode = intval(trim($_POST["seccode"]));
     if($name && $pw && $seccode){
@@ -56,58 +52,34 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                         if($db_user){
                             $pwmd5 = encode_password($pw, $db_user['regtime']);
                             if($pwmd5 == $db_user['password']){
-                                
-                                // G Auth Checking
-                                
-                                $gsecret = $db_user['gauthsecret'];
-
                                 if ($gsecret != Null){
-                                    if ($gcode){
-
-                                        $ga = new GoogleAuth();
-                                        $checkResult = $ga->verifyCode($gsecret, $gcode);
-
-                                        if ($checkResult) {
-                                            //设置cookie
-                                            $db_ucode = md5($db_user['id'].$db_user['password'].$db_user['regtime'].$db_user['lastposttime'].$db_user['lastreplytime']);
-                                            $cur_uid = $db_user['id'];
-                                            
-                                            setcookie("cur_uid", $cur_uid, time()+ 86400 * 365, '/');
-                                            setcookie("cur_uname", $name, time()+86400 * 365, '/');
-                                            setcookie("cur_ucode", $db_ucode, time()+86400 * 365, '/');
-                                            $cur_user = $db_user;
-                                            unset($db_user);
-                                            
-                                            header('location: /');
-                                            exit('logined');
-                                        } else {
-                                            $errors[] = '安全码已过期或输入不正确!';
-                                        }
-                                        
-                                    }else{
-                                        $errors[] = '您已开启二次验证，请输入安全码!';
-                                    }
-
+									//设置cookie
+									$db_ucode = md5($db_user['id'].$db_user['password'].$db_user['regtime'].$db_user['lastposttime'].$db_user['lastreplytime']);
+									$cur_uid = $db_user['id'];
+									setcookie("cur_uid", $cur_uid, time()+ 86400 * 365, '/');
+									setcookie("cur_uname", $name, time()+86400 * 365, '/');
+									setcookie("cur_ucode", $db_ucode, time()+86400 * 365, '/');
+									$cur_user = $db_user;
+									unset($db_user);
+									header('location: /');
+									exit('logined');
                                 }else{
+									$DBS->unbuffered_query("UPDATE yunbbs_users SET logintime='".$timestamp."' WHERE name='".$name."'");
                                     //设置cookie
                                     $db_ucode = md5($db_user['id'].$db_user['password'].$db_user['regtime'].$db_user['lastposttime'].$db_user['lastreplytime']);
                                     $cur_uid = $db_user['id'];
-                                    
                                     setcookie("cur_uid", $cur_uid, time()+ 86400 * 365, '/');
                                     setcookie("cur_uname", $name, time()+86400 * 365, '/');
                                     setcookie("cur_ucode", $db_ucode, time()+86400 * 365, '/');
                                     $cur_user = $db_user;
                                     unset($db_user);
-                                    
                                     header('location: /');
                                     exit('logined');
                                 }
-
                             }else{
                                 // 用户名和密码不匹配
                                 $errors[] = '输入的用户名或密码不正确!';
                             }
-
                         }else{
                             // 没有该用户名
                             $errors[] = '输入的用户名不正确!';

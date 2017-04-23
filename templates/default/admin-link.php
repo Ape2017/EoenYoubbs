@@ -2,6 +2,10 @@
 if (!defined('IN_SAESPOT')) exit('error: 403 Access Denied'); 
 
 echo '
+<div class="main-wrap">
+    <div class="main">
+        <div class="main-content">
+
 <a name="add"></a>
 <div class="title">
    <i class="fa fa-angle-double-right"></i> 添加链接

@@ -1,46 +1,43 @@
 <?php 
 if (!defined('IN_SAESPOT')) exit('error: 403 Access Denied'); 
-
+// 
 echo '
-<div class="title">
-        <i class="fa fa-angle-double-right"></i> <a href="/nodes/',$c_obj['id'],'">',$c_obj['name'],'</a> (',$c_obj['articles'],')';
-	if($cur_user['notic']){
-            $notic_n = count(array_unique(explode(',', $cur_user['notic'])))-1;
-	echo'<span class="nopic"><a href="/notifications"><i class="fa fa-bell"></i> 您有',$notic_n,'条消息</a></span>';
-	}
-echo '    <div class="c"></div>
-</div>
-
 <div class="main-box">
 <div class="topic-title">
-    <div class="topic-title-main float-left">
-        <h1>',$t_obj['title'],'</h1>
-        <div class="topic-title-date">
-        <i class="fa fa-clock-o"></i>',$t_obj['addtime'],'&nbsp;&nbsp;<i class="fa fa-eye"></i>',$t_obj['views'],'阅读';
-if($t_obj['favorites']){
-    echo '&nbsp;&nbsp;<i class="fa fa-star"></i>',$t_obj['favorites'],'收藏';
-}
-if($cur_user && $cur_user['flag']>4){
-    if($in_favorites){
-        echo '&nbsp;&nbsp;<i class="fa fa-star-o"></i><a href="/favorites?act=del&id=',$t_obj['id'],'" title="取消收藏">取消</a>';
-    }else{
-        echo '&nbsp;&nbsp;<i class="fa fa-star"></i><a href="/favorites?act=add&id=',$t_obj['id'],'" title="收藏">收藏</a>';
-    }
-	if($cur_user['flag']>=99){
-        echo '&nbsp;&nbsp;<i class="fa fa-pencil-square"></i><a href="/admin-edit-post-',$t_obj['id'],'">编辑</a>';
-    }
-}
+    <div class="topic-title-main">
+		<div class="detail-avatar">
+			<a href="/user/',$t_obj['uid'],'"><img src="/avatar/normal/',$t_obj['uavatar'],'.png" alt="',$t_obj['author'],'" /></a>
+			<a href="/user/',$t_obj['uid'],'" class="ios-name">',$t_obj['author'],'</a><span>作者</span>
+		</div>';
+		if($cur_user && $cur_user['flag']>4){
+			echo '<div class="ios-favorites">';
+			if($in_favorites){
+				echo '<a href="/favorites?act=del&id=',$t_obj['id'],'" class="off">取消收藏</a>';
+			}else{
+				echo '<a href="/favorites?act=add&id=',$t_obj['id'],'" class="no">添加收藏</a>';
+			}echo '</div>';
+		}
+        echo '<div class="topic-title-date">
+        ',$t_obj['addtime'],'<b>·</b>阅读 ',$t_obj['views'],'';
+		if($t_obj['favorites']){
+			echo '<b>·</b>收藏 ',$t_obj['favorites'],'';
+		}
+		echo '<b>·</b><i class="fa fa-bookmark-o" aria-hidden="true"></i> <a href="/nodes/',$c_obj['id'],'">',$c_obj['name'],'</a>';
+		if($cur_user && $cur_user['flag']>4){
+			if($cur_user['flag']>=99){
+				echo '<b>·</b><a href="/admin-edit-post-',$t_obj['id'],'">编辑话题</a>';
+			}
+		}
 echo '        </div>
     </div>
-    <div class="detail-avatar"><a href="/user/',$t_obj['uid'],'"><img src="/avatar/normal/',$t_obj['uavatar'],'.png" alt="',$t_obj['author'],'" />    </a></div>
     <div class="c"></div>
 </div>
 <div class="topic-content">
-
-<p>',$t_obj['content'],'</p>';
+<h1>',$t_obj['title'],'</h1>
+<p class="photos">',$t_obj['content'],'</p>';
 
 if($t_obj['tags']){
-    echo '<div class="topic-tags"><i class="fa fa-tags"></i> ',$t_obj['tags'],'</div>';
+    echo '<div class="topic-tags">标签 : ',$t_obj['tags'],'</div>';
 }
 
 if($t_obj['relative_topics']){
@@ -60,7 +57,7 @@ echo '</div>
 if($t_obj['comments']){
 echo '
 <div class="title">
-    ',$t_obj['comments'],' 回复  |  直到 ',$t_obj['edittime'],'
+    评论 ',$t_obj['comments'],'</span>
 </div>
 <div class="main-box home-box-list">';
 
@@ -69,28 +66,25 @@ foreach($commentdb as $comment){
 $count_n += 1;
 echo '
     <div class="commont-item">
-        <div class="commont-avatar"><a href="/user/',$comment['uid'],'"><img src="/avatar/mini/',$comment['avatar'],'.png" alt="',$comment['author'],'" /></a></div>
-        <div class="commont-data">
-            <div class="commont-content">
+        <div class="commont-avatar">
+			<a href="/user/',$comment['uid'],'"><img src="/avatar/large/',$comment['avatar'],'.png" alt="',$comment['author'],'" /></a>
+		</div>
+		<div class="ios-comment-name">
+			<a href="/user/',$comment['uid'],'" class="user">',$comment['author'],'</a>
+			<span>',$count_n,'楼<b>·</b>',$comment['addtime'],'</span>
+		</div>
+		<div class="ios-auydhjs">';
+		if($cur_user && $cur_user['flag']>=99){
+				echo '<a href="/admin-edit-comment-',$comment['id'],'" class="edit">修改</a>';
+			}
+			if(!$t_obj['closecomment'] && $cur_user && $cur_user['flag']>4 && $cur_user['name'] != $comment['author']){
+				echo '<a href="#new-comment" onclick="replyto(\'',$comment['author'],'\');" class="reply">回复</a>'; 
+			}
+		echo '</div>
+        <div class="ios-commont-content">
             <p>',$comment['content'],'</p>
-            </div>
-            
-            <div class="commont-data-date">
-                <div class="float-left"><i class="fa fa-user"></i> <a href="/user/',$comment['uid'],'">',$comment['author'],'</a>&nbsp;&nbsp;<i class="fa fa-calendar"></i> ',$comment['addtime'];
-if($cur_user && $cur_user['flag']>=99){
-    echo '&nbsp;&nbsp;<i class="fa fa-pencil-square"></i> <a href="/admin-edit-comment-',$comment['id'],'">编辑</a>';
-}
-                echo '</div>
-                <div class="float-right">';
-if(!$t_obj['closecomment'] && $cur_user && $cur_user['flag']>4 && $cur_user['name'] != $comment['author']){
-    echo '<i class="fa fa-reply"></i> <a href="#new-comment" onclick="replyto(\'',$comment['author'],'\');">回复</a>'; 
-}
-echo '                <span class="commonet-count">',$count_n,'</span></div>
-                <div class="c"></div>
-            </div>
-            <div class="c"></div>
-        </div>
-        <div class="c"></div>
+        </div>';
+echo ' <div class="c"></div>
     </div>';
 }
 
@@ -120,7 +114,7 @@ function replyto(somebd){
 </script>';
 
 }else{
-    echo '<div class="no-comment">目前尚无回复</div>';
+    echo '<div class="no-comment">还没有人参与过评论</div>';
 }
 
 if($t_obj['closecomment']){
@@ -130,26 +124,21 @@ if($t_obj['closecomment']){
 if($cur_user && $cur_user['flag']>4){
 
 echo '<a name="new-comment"></a>
-<div class="title">
-    <div class="float-left">添加一条新回复</div>
-    <div class="float-right"><a href="#"><a href="#"><i class="fa fa-chevron-up"></i> 回到顶部</a></div>
-    <div class="c"></div>    
-</div>
-<div class="main-box">';
+<div class="ios-main-box-testarea">';
 if($tip){
     echo '<p class="red">',$tip,'</p>';
 }
 echo '    <form action="',$_SERVER["REQUEST_URI"],'#new-comment" method="post">
 <input type="hidden" name="formhash" value="',$formhash,'" />
-    <p><textarea id="id-content" name="content" class="comment-text mll wb92">',htmlspecialchars($c_content),'</textarea></p>
-    <p><input type="submit" value=" 提 交 " name="submit" class="textbtn wb100" /></p>
-    <p class="fs12 grey">请尽量让自己的回复能够对别人有帮助</p>
+    <textarea id="id-content" name="content" placeholder="请写下你的评论..." class="comment-text mll wb92">',htmlspecialchars($c_content),'</textarea>
+    <input type="submit" value="发 表" name="submit" class="textbtn wb100" />
     </form>
+	<a href="#"><i class="fa fa-chevron-up" aria-hidden="true"></i></a>
 </div>
 <!-- new comment end -->';
 
 }else{
-    echo '<div class="no-comment">请 <a href="/login" rel="nofollow">登录</a> 后发表评论</div>';
+    echo '<div class="ios-no-comment"><div class="no-comment-text"><a href="/login" rel="nofollow">登录</a> 后才能发表评论</div></div>';
 }
 
 }

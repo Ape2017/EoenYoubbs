@@ -4,8 +4,8 @@ error_reporting(0);
 session_start();
 //session_register('code');
 $_SESSION['code'] = '';
-$width            = '58';//图片宽
-$height           = '27';//图片高
+$width            = '64';//图片宽
+$height           = '40';//图片高
 
 $textall = array_merge_recursive(range('0','9'));
 for ($i=0; $i<4; $i++) {
@@ -33,7 +33,7 @@ if(function_exists('imagecreate') && function_exists('imagecolorset') && functio
         $x = $numorder[$i] * 13 + mt_rand(0, 4) - 2;
         $y = mt_rand(0, 3);
         $text_color = imagecolorallocate($im, mt_rand(50, 255), mt_rand(50, 128), mt_rand(50, 255));
-        imagechar($im, 5, $x + 5, $y + 3, $code[$numorder[$i]], $text_color);
+        imagechar($im, 5, $x + 5, $y + 10, $code[$numorder[$i]], $text_color);
     }
     $linenums = mt_rand(10, 32);
     for($i=0; $i <= $linenums; $i++) {
@@ -48,7 +48,7 @@ if(function_exists('imagecreate') && function_exists('imagecolorset') && functio
         imagesetpixel($im, mt_rand(0, $width), mt_rand(0, $height), $pointcolor);
     }
 
-    $bordercolor = imagecolorallocate($im , 150, 150, 150);
+    $bordercolor = imagecolorallocate($im , 255, 255, 255);
     imagerectangle($im, 0, 0, $width-1, $height-1, $bordercolor);
 
     header('Content-type: image/png');

@@ -6,8 +6,9 @@
  *在 youBBS 的代码基础之上发布派生版本，名字可以不包含youBBS，
  *但是页脚需要带有 based on youBBS 的字样和链接。
  */
-define('SAESPOT_VER', '2.1');
+define('SAESPOT_VER', '2.3');
 if (!defined('IN_SAESPOT')) exit('error: 403 Access Denied');
+error_reporting(0);
 
 $mtime = explode(' ', microtime());
 $starttime = $mtime[1] + $mtime[0];
@@ -127,7 +128,7 @@ if($user_agent){
 
     if($is_mobie){
         // 设置模板前缀
-        $viewat = $_COOKIE['vtpl'];
+        @$viewat = $_COOKIE['vtpl'];
         if($viewat=='desktop'){
             $tpl = '';
         }else{
@@ -188,7 +189,7 @@ function set_content_rich($text, $spider='0'){
             $text = preg_replace($img_re, '<img src="'.$options['base_url'].'/static/grey2.gif" data-original="\1" alt="" />', $text);
         }else{
             // 搜索引擎来这样显示 更利于SEO 参见 http://saepy.sinaapp.com/t/81
-            $text = preg_replace($img_re, '<img src="\1" alt="" />', $text);
+            $text = preg_replace($img_re, '<img src="\1"/ class="photo">', $text);
         }
     }
     // 腾讯微博图片
@@ -201,35 +202,46 @@ function set_content_rich($text, $spider='0'){
             $text = preg_replace($qq_img_re, '<img src="\1/460" alt="" />', $text);
         }
     }
-
-    // 各大网站的视频地址格式经常变，能识别一些，不能识别了再改。
+	
+	// 网易音乐
+    if(strpos($text, 'music.163.com')){
+        if(strpos($text, 'id=')){ 
+            $text = preg_replace('/http:\/\/music\.163\.com\/(.+)id=([a-zA-Z0-9]{6,})/', '<iframe src="http://music.163.com/outchain/player?type=2&id=\2&auto=0&height=66" width="100%" height="86" frameborder="0" allowfullscreen></iframe>', $text);
+        }
+    }
+	//bilibili
+	
+	if(strpos($text, 'www.bilibili.com')){
+        $text = preg_replace('/http:\/\/www\.bilibili\.com\/video\/([a-zA-Z0-9]{6,})/', '<iframe src="https://secure.bilibili.tv/secure,cid=\2" class="video" frameborder=0></iframe>', $text);
+    }
+	
     // youku
     if(strpos($text, 'player.youku.com')){
         $text = preg_replace('/http:\/\/player\.youku\.com\/player\.php\/sid\/([a-zA-Z0-9\=]+)\/v\.swf/', '<embed src="http://player.youku.com/player.php/sid/\1/v.swf" quality="high" width="590" height="492" align="middle" allowScriptAccess="sameDomain" type="application/x-shockwave-flash"></embed>', $text);
     }
 
     if(strpos($text, 'v.youku.com')){
-        $text = preg_replace('/http:\/\/v\.youku\.com\/v_show\/id_([a-zA-Z0-9\=]+)(\/|\.html?)?/', '<embed src="http://player.youku.com/player.php/sid/\1/v.swf" quality="high" width="590" height="492" align="middle" allowScriptAccess="sameDomain" type="application/x-shockwave-flash"></embed>', $text);
+        $text = preg_replace('/http:\/\/v\.youku\.com\/v_show\/id_([a-zA-Z0-9\=]+)(\/|\.html?)?/', '<iframe src="http://player.youku.com/embed/\1" class="video" frameborder=0></iframe>', $text);
     }
     // tudou
     if(strpos($text, 'www.tudou.com')){
         if(strpos($text, 'programs/view')){
-            $text = preg_replace('/http:\/\/www\.tudou\.com\/(programs\/view|listplay)\/([a-zA-Z0-9\=\_\-]+)(\/|\.html?)?/', '<embed src="http://www.tudou.com/v/\2/" quality="high" width="638" height="420" align="middle" allowScriptAccess="sameDomain" type="application/x-shockwave-flash"></embed>', $text);
+            $text = preg_replace('/http:\/\/www\.tudou\.com\/(programs\/view|listplay)\/([a-zA-Z0-9\=\_\-]+)(\/|\.html?)?/', '<embed src="http://www.tudou.com/v/\2/" quality="high" width="100%" height="auto" align="middle" allowScriptAccess="sameDomain" type="application/x-shockwave-flash"></embed>', $text);
         }else if(strpos($text, 'albumplay')){
-            $text = preg_replace('/http:\/\/www\.tudou\.com\/albumplay\/([a-zA-Z0-9\=\_\-]+)\/([a-zA-Z0-9\=\_\-]+)(\/|\.html?)?/', '<embed src="http://www.tudou.com/a/\1/" quality="high" width="638" height="420" align="middle" allowScriptAccess="sameDomain" type="application/x-shockwave-flash"></embed>', $text);
+            $text = preg_replace('/http:\/\/www\.tudou\.com\/albumplay\/([a-zA-Z0-9\=\_\-]+)\/([a-zA-Z0-9\=\_\-]+)(\/|\.html?)?/', '<embed src="http://www.tudou.com/a/\1/" quality="high" width="100%" height="auto" align="middle" allowScriptAccess="sameDomain" type="application/x-shockwave-flash"></embed>', $text);
         }else if(strpos($text, "tudou.com/a/")){
             //播放器地址
-            $text = preg_replace('/(http:\/\/www\.tudou\.com\/a\/([a-zA-Z0-9\=]+)\/\&amp;resourceId\=([0-9\_]+)\&amp;iid\=([0-9\_]+)\/v\.swf)/', '<embed src="\\1" quality="high" width="638" height="420" align="middle" allowScriptAccess="sameDomain" type="application/x-shockwave-flash"></embed>', $text);
+            $text = preg_replace('/(http:\/\/www\.tudou\.com\/a\/([a-zA-Z0-9\=]+)\/\&amp;resourceId\=([0-9\_]+)\&amp;iid\=([0-9\_]+)\/v\.swf)/', '<embed src="\\1" quality="high" width="100%" height="auto" align="middle" allowScriptAccess="sameDomain" type="application/x-shockwave-flash"></embed>', $text);
         }else{
-            $text = preg_replace('/http:\/\/www\.tudou\.com\/(programs\/view|listplay)\/([a-zA-Z0-9\=\_\-]+)(\/|\.html?)?/', '<embed src="http://www.tudou.com/l/\2/" quality="high" width="638" height="420" align="middle" allowScriptAccess="sameDomain" type="application/x-shockwave-flash"></embed>', $text);
+            $text = preg_replace('/http:\/\/www\.tudou\.com\/(programs\/view|listplay)\/([a-zA-Z0-9\=\_\-]+)(\/|\.html?)?/', '<embed src="http://www.tudou.com/l/\2/" quality="high" width="100%" height="auto" align="middle" allowScriptAccess="sameDomain" type="application/x-shockwave-flash"></embed>', $text);
         }
     }
     // qq
     if(strpos($text, 'v.qq.com')){
-        if(strpos($text, 'vid=')){
-            $text = preg_replace('/http:\/\/v\.qq\.com\/(.+)vid=([a-zA-Z0-9]{8,})/', '<embed src="http://static.video.qq.com/TPout.swf?vid=\2&auto=0" allowFullScreen="true" quality="high" width="590" height="492" align="middle" allowScriptAccess="always" type="application/x-shockwave-flash"></embed>', $text);
+        if(strpos($text, 'vid=')){ 
+            $text = preg_replace('/https:\/\/v\.qq\.com\/(.+)vid=([a-zA-Z0-9]{8,})/', '<iframe src="https://v.qq.com/iframe/player.html?vid=\2&tiny=0&auto=0" class="video" frameborder="0" allowfullscreen></iframe>', $text);
         }else{
-            $text = preg_replace('/http:\/\/v\.qq\.com\/(.+)\/([a-zA-Z0-9]{8,})\.(html?)/', '<embed src="http://static.video.qq.com/TPout.swf?vid=\2&auto=0" allowFullScreen="true" quality="high" width="590" height="492" align="middle" allowScriptAccess="always" type="application/x-shockwave-flash"></embed>', $text);
+            $text = preg_replace('/https:\/\/v\.qq\.com\/(.+)\/([a-zA-Z0-9]{8,})\.(html?)/', '<iframe src="https://v.qq.com/iframe/player.html?vid=\2&tiny=0&auto=0" class="video" frameborder="0" allowfullscreen></iframe>', $text);
         }
     }
     // gist
@@ -238,7 +250,7 @@ function set_content_rich($text, $spider='0'){
     }
     // mentions
     if(strpos($text, '@') !== false){
-        $text = preg_replace('/\B\@([a-zA-Z0-9\x80-\xff]{4,20})/', '@<a href="'.$options['base_url'].'/user/\1">\1</a>', $text);
+        @$text = preg_replace('/\B\@([a-zA-Z0-9\x80-\xff]{4,20})/', '@<a href="'.$options['base_url'].'/user/\1" class="user">\1</a>', $text);
     }
     // url
     if(strpos($text, 'http') !== false){
@@ -251,37 +263,15 @@ function set_content_rich($text, $spider='0'){
         $text = substr($text, 1);
     }
 
-    $text = preg_replace("/\s{4,}/", '</p><p>', $text);
-    $text = str_replace("\r\n", '<br/>', $text);
-    $text = str_replace("<p></p>", '', $text);
+    //$text = preg_replace("/\s{4,}/", '</p><p>', $text);
+    //$text = str_replace("\r\n", '<br/>', $text);
+    //$text = str_replace("<p></p>", '', $text);
 
     return $text;
 }
 
 // 附加代码高亮
 function set_content($text, $spider='0'){
-    if(strpos($text, '```') !== false){
-        preg_match_all('/```([\s\S]*?)```/', $text, $mat);
-        $code_arr = array();
-        $code_new_arr = array();
-        for($i=0; $i<count($mat[0]); $i++){
-            //youxascodetag 是你自己定义的一个代码占位符，最好不让别人知道
-            $code_tag_place = '[youxascodetag_'.$i.']';
-            $code_arr[$i] = $code_tag_place;
-            $code_v = trim($mat[1][$i]);
-            $code_v = str_replace("<", '<', $code_v);
-            $code_v = str_replace(">", '>', $code_v);            
-            $code_new_arr[$i] = '<pre><code>'.$code_v.'</code></pre>';
-            $text = str_replace($mat[0][$i], $code_tag_place, $text);
-        }
-        $text = set_content_rich($text, $spider);
-        foreach($code_arr as $k=>$v){
-            $text = str_replace($v, $code_new_arr[$k], $text);
-        }
-        $text = str_replace("<p><pre>", '<pre>', $text);
-        $text = str_replace("</pre></p>", '</pre>', $text);
-        return $text;
-    }
     return set_content_rich($text, $spider);
 }
 
@@ -303,7 +293,7 @@ function find_mentions($text, $filter_name=''){
 
 //转换字符
 function char_cv($string) {
-    $string = htmlspecialchars(addslashes($string));
+    $string = nl2br(addslashes($string));
     return $string;
 }
 

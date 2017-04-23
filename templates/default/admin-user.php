@@ -4,6 +4,10 @@ if (!defined('IN_SAESPOT')) exit('error: 403 Access Denied');
 if($userdb || $userdb2){
 if($userdb){
 echo '
+<div class="main-wrap">
+    <div class="main">
+        <div class="main-content">
+
 <a name="1"></a>
 <div class="title"><i class="fa fa-angle-double-right"></i> 最近等待审核的用户</div>
 
@@ -42,6 +46,9 @@ echo '</ul>
 
 }else{
 echo '
+<div class="main-wrap">
+    <div class="main">
+        <div class="main-content">
 <div class="title"><i class="fa fa-angle-double-right"></i> 用户管理</div>
 
 <div class="main-box">

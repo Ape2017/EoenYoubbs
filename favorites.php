@@ -15,9 +15,9 @@ if ($cur_user['flag']==0){
 }
 
 
-$act = $_GET['act'];
-$tid = $_GET['id'];
-$page = intval($_GET['page']);
+@$act = $_GET['act'];
+@$tid = $_GET['id'];
+@$page = intval($_GET['page']);
 
 // 获取收藏数据
 $user_fav = $DBS->fetch_one_array("SELECT * FROM yunbbs_favorites WHERE uid='".$cur_uid."'");
@@ -111,7 +111,7 @@ if($user_fav['articles']){
     }
     $ids = implode(',', $id_arr);
     //exit($ids);
-    $query_sql = "SELECT a.id,a.uid,a.cid,a.ruid,a.title,a.addtime,a.edittime,a.comments,c.name as cname,u.avatar as uavatar,u.name as author,ru.name as rauthor
+    $query_sql = "SELECT a.id,a.uid,a.cid,a.ruid,a.title,a.content,a.addtime,a.edittime,a.comments,c.name as cname,u.avatar as uavatar,u.name as author,ru.name as rauthor
         FROM yunbbs_articles a 
         LEFT JOIN yunbbs_categories c ON c.id=a.cid
         LEFT JOIN yunbbs_users u ON a.uid=u.id
@@ -128,6 +128,8 @@ if($user_fav['articles']){
         // 格式化内容
         $article['addtime'] = showtime($article['addtime']);
         $article['edittime'] = showtime($article['edittime']);
+		$artid = $article['id'];
+		$article['content'] = set_content(mb_strlen($article['content'], 'utf-8') > 200 ? mb_substr($article['content'], 0, 200, 'utf-8').'<p class="topic-more"><a href="/topics/'.$artid.'">阅读全部<i></i></a></p>' : $article['content'], 1);
         $articledb[$article['id']] = $article;
     }
     unset($article);

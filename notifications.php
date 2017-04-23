@@ -21,7 +21,7 @@ $cur_user = $DBS->fetch_one_array("SELECT * FROM yunbbs_users WHERE id='".$cur_u
 if($cur_user['notic']){
     $ids = implode(',', array_unique(explode(',', substr($cur_user['notic'], 0, -1))));
     
-    $query_sql = "SELECT a.id,a.uid,a.cid,a.ruid,a.title,a.addtime,a.edittime,a.comments,c.name as cname,u.avatar as uavatar,u.name as author,ru.name as rauthor
+    $query_sql = "SELECT a.id,a.uid,a.cid,a.ruid,a.title,a.content,a.addtime,a.edittime,a.views,a.comments,c.name as cname,u.avatar as uavatar,u.name as author,ru.name as rauthor
         FROM yunbbs_articles a 
         LEFT JOIN yunbbs_categories c ON c.id=a.cid
         LEFT JOIN yunbbs_users u ON a.uid=u.id
@@ -33,6 +33,8 @@ if($cur_user['notic']){
         // 格式化内容
         $article['addtime'] = showtime($article['addtime']);
         $article['edittime'] = showtime($article['edittime']);
+		$artid = $article['id'];
+		$article['content'] = set_content(mb_strlen($article['content'], 'utf-8') > 200 ? mb_substr($article['content'], 0, 200, 'utf-8').'<p class="topic-more"><a href="/topics/'.$artid.'">阅读全部<i></i></a></p>' : $article['content'], 1);
         $articledb[] = $article;
     }
     unset($article);

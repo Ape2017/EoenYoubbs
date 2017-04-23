@@ -36,7 +36,7 @@ if($page<0){
 // 获取最近文章列表
 if($page == 0) $page = 1;
 
-$query_sql = "SELECT a.id,a.uid,a.ruid,a.title,a.fop,a.isred,a.addtime,a.edittime,a.comments,u.avatar as uavatar,u.name as author,ru.name as rauthor
+$query_sql = "SELECT a.id,a.uid,a.ruid,a.title,a.content,a.views,a.fop,a.isred,a.addtime,a.edittime,a.comments,u.avatar as uavatar,u.name as author,ru.name as rauthor
     FROM yunbbs_articles a 
     LEFT JOIN yunbbs_users u ON a.uid=u.id
     LEFT JOIN yunbbs_users ru ON a.ruid=ru.id
@@ -46,19 +46,34 @@ $articledb=array();
 while ($article = $DBS->fetch_array($query)) {
     // 格式化内容
 	if($article['isred'] == '1' && $article['fop'] == '1'){
-         $article['title'] = "<span class=\"label label-warning\">置顶</span><span class=\"label label-success\">推荐</span>".$article['title'];
+         $article['title'] = $article['title']."<span class=\"label label-warning\">置顶</span><span class=\"label label-success\">推荐</span>";
      }elseif($article['isred'] == '1'){
-         $article['title'] = "<span class=\"label label-success\">推荐</span>".$article['title'];
+         $article['title'] = $article['title']."<span class=\"label label-success\">推荐</span>";
      }elseif($article['fop'] == '1'){
-         $article['title'] = "<span class=\"label label-warning\">置顶</span>".$article['title'];
+         $article['title'] = $article['title']."<span class=\"label label-warning\">置顶</span>";
     }	
     $article['addtime'] = showtime($article['addtime']);
     $article['edittime'] = showtime($article['edittime']);
+	$artid = $article['id'];
+	$article['content'] = set_content(mb_strlen($article['content'], 'utf-8') > 200 ? mb_substr($article['content'], 0, 200, 'utf-8').'<p class="topic-more"><a href="/topics/'.$artid.'">阅读全部<i></i></a></p>' : $article['content'], 1);
     $articledb[] = $article;
 }
 unset($article);
 $DBS->free_result($query);
 
+//话题关注者
+$quero = "SELECT a.ID,a.UserID,a.ObjID,a.FollowTime,u.name,u.avatar
+    FROM yunbbs_follow a 
+    LEFT JOIN yunbbs_users u ON a.UserID=u.id
+    WHERE a.ObjID='$cid' and Type=1 ORDER BY a.FollowTime DESC";
+$leavin = $DBS->query($quero);
+$leavindb=array();
+while ($leaving = $DBS->fetch_array($leavin)) {
+	// 格式化内容
+	$leavindb[] = $leaving;
+}
+unset($leaving);
+$DBS->free_result($leavin);
 
 // 页面变量
 $title = $c_obj['name'];

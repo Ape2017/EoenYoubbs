@@ -2,37 +2,38 @@
 if (!defined('IN_SAESPOT')) exit('error: 403 Access Denied'); 
 
 echo '
-<form action="',$_SERVER["REQUEST_URI"],'" method="post">
-<input type="hidden" name="formhash" value="',$formhash,'" />
-<div class="title"><i class="fa fa-angle-double-right"></i> 创作新主题</div>
-<div class="main-box">';
-if($tip){
-    echo '<div id="closes" class="redbox"><i class="fa fa-info-circle"></i> ',$tip,'<span id="close"><i class="fa fa-times"></i></span></div>';
-}
-echo '
-<p class="newp"><select name="select_cid" class="form-control">';
-foreach($main_nodes_arr as $n_id=>$n_name){
-        if($cid == $n_id){
-            $sl_str = ' selected="selected"';
-        }else{
-            $sl_str = '';
-        }
-        echo '<option value="',$n_id,'"',$sl_str,'>',$n_name,'</option>';
-	}
-echo '</select></p>
-<p class="newp"><input type="text" name="title" value="',htmlspecialchars($p_title),'" class="sll" placeholder="请填写标题"/></p>
-<p class="newp"><textarea id="id-content" name="content" class="mll tall">',htmlspecialchars($p_content),'</textarea></p>
-<p class="newp"><input type="text" name="tags" value="',htmlspecialchars($p_tags),'" class="sll" placeholder="选填标签"/></p>';
-if(!$options['close_upload']){
-    include(CURRENT_DIR . '/templates/default/upload.php');
-	echo'<p><div class="float-right" style="margin-top: -3em;padding-right: 5px;"><input type="submit" value=" 发布主题 " name="submit" class="textbtn" /></div><div class="c"></div></p>';
-}else{
-	echo'<p><div class="float-right" style="padding-right: 5px;"><input type="submit" value=" 发布主题 " name="submit" class="textbtn" /></div><div class="c"></div></p>';
-}
-echo '
-</form>
-
-</div>';
-
-
+<div class="main-wrap">
+    <div class="main">
+		<div class="new-post-page">
+			<div class="new-post-page-form">
+				<form action="',$_SERVER["REQUEST_URI"],'" method="post" class="layui-form">
+					<input type="hidden" name="formhash" value="',$formhash,'" />
+					<p><input type="text" name="title" value="',htmlspecialchars($p_title),'" class="newtitle" placeholder="请填写标题"/></p>
+					<p><input type="text" name="tags" value="',htmlspecialchars($p_tags),'" class="newtags" placeholder="选填标签，最多5个（标签用英文逗号或者空格隔开）"/>
+					<select name="select_cid" class="new-control">';
+					foreach($main_nodes_arr as $n_id=>$n_name){
+							if($cid == $n_id){
+								$sl_str = ' selected="selected"';
+							}else{
+								$sl_str = '';
+							}
+							echo '<option value="',$n_id,'"',$sl_str,'>',$n_name,'</option>';
+						}
+					echo '</select></p>
+					<p><textarea id="id-content" name="content" class="newtext" placeholder="输入正文（正文可以直接粘贴优酷、腾讯视频地址或者网易音乐链接）">',htmlspecialchars($p_content),'</textarea></p>';
+					if(!$options['close_upload']){
+						include(CURRENT_DIR . '/templates/default/upload.php');
+					}echo'
+					<p><input type="submit" value=" 发布帖子 " name="submit" class="newtextbtn" /></p>
+				</form>
+			</div>
+		</div>';
+		
+echo"<script>
+layui.use(['form'], function(){
+	var form = layui.form()
+	,layer = layui.layer;
+});
+</script>";echo'
+<div class="main-content">';
 ?>

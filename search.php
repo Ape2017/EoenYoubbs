@@ -29,7 +29,7 @@ if($page<=0){
 }
 $articledb=array();
 if($taltol_article > 0){
-    $query_sql = "SELECT a.id,a.cid,a.uid,a.ruid,a.title,a.addtime,a.edittime,a.comments,a.isred,c.name as cname,u.avatar as uavatar,u.name as author,ru.name as rauthor
+    $query_sql = "SELECT a.id,a.cid,a.uid,a.ruid,a.title,a.views,a.addtime,a.edittime,a.comments,a.isred,c.name as cname,u.avatar as uavatar,u.name as author,ru.name as rauthor
         FROM `yunbbs_articles` a 
         LEFT JOIN `yunbbs_categories` c ON c.id=a.cid
         LEFT JOIN `yunbbs_users` u ON a.uid=u.id
@@ -41,7 +41,7 @@ if($taltol_article > 0){
     while ($article = $DBS->fetch_array($query)) {
         // 格式化内容
         if($article['isred'] == '1'){
-             $article['title'] = "<span class=\"label label-success\">推荐</span>".$article['title'];
+             $article['title'] = $article['title'];
          }
         $article['addtime'] = showtime($article['addtime']);
         $article['edittime'] = showtime($article['edittime']);
@@ -52,7 +52,7 @@ if($taltol_article > 0){
 }
 
 // 页面变量
-$title = $options['name'].' - page '.$page;
+$title = '关于'.$keyword.'的搜索结果';
 
 $site_infos = get_site_infos();
 $newest_nodes = get_newest_nodes();

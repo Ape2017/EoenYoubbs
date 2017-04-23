@@ -2,6 +2,10 @@
 if (!defined('IN_SAESPOT')) exit('error: 403 Access Denied'); 
 
 echo '
+<div class="main-wrap">
+    <div class="main">
+        <div class="main-content">
+
 <div class="title">
     <a href="/">',$options['name'],'</a> &raquo; - 修改评论';
 echo '

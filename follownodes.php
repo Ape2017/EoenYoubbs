@@ -23,12 +23,16 @@ if($act && $tid > 0){
     if($act == 'add'){
         // 添加关注
          $DBS->query("INSERT ignore INTO `yunbbs_follow`(`ID`, `UserID`, `ObjID`, `Type`, `FollowTime`) VALUES (null,$cur_uid,$tid,1, $timestamp)");
+		 $DBS->unbuffered_query("UPDATE yunbbs_users SET fnod=fnod+1 WHERE id='$cur_uid'");
+		 $DBS->unbuffered_query("UPDATE yunbbs_categories SET follow=follow+1 WHERE id='$tid'");
          $new_mid = $DBS->insert_id();
          echo 1;
         
     }else if($act == 'del'){
         // 取消关注
         $DBS->unbuffered_query("Delete from yunbbs_follow WHERE ObjID='$tid' and UserID='$cur_uid' and Type=1");
+		$DBS->unbuffered_query("UPDATE yunbbs_users SET fnod=fnod-1 WHERE id='$cur_uid'");
+		$DBS->unbuffered_query("UPDATE yunbbs_categories SET follow=follow-1 WHERE id='$tid'");
        echo 1;
     }else if($act == 'isfo'){
         //  是否关注过此话题
@@ -85,7 +89,7 @@ if($total_articles > 0){
 //    $ids = implode(',', $id_arr);
     //exit($ids);
          
-    $query_sql = "SELECT a.id,a.uid,a.cid,a.ruid,a.title,a.addtime,a.edittime,a.comments,a.isred,c.name as cname,u.avatar as uavatar,u.name as author,ru.name as rauthor
+    $query_sql = "SELECT a.id,a.uid,a.cid,a.ruid,a.title,a.addtime,a.content,a.views,a.edittime,a.comments,a.isred,c.name as cname,u.avatar as uavatar,u.name as author,ru.name as rauthor
         FROM `yunbbs_follow` f
         inner join `yunbbs_articles` a on f.ObjID=a.cid
         LEFT JOIN `yunbbs_categories` c ON c.id=a.cid
@@ -105,12 +109,32 @@ if($total_articles > 0){
         // 格式化内容
         $article['addtime'] = showtime($article['addtime']);
         $article['edittime'] = showtime($article['edittime']);
+		$artid = $article['id'];
+		$article['content'] = set_content(mb_strlen($article['content'], 'utf-8') > 200 ? mb_substr($article['content'], 0, 200, 'utf-8').'<p class="topic-more"><a href="/topics/'.$artid.'">阅读全部<i></i></a></p>' : $article['content'], 1);
         $articledb[$article['id']] = $article;
     }
-   
     unset($article);
     $DBS->free_result($query);
 }
+
+//我关注的话题
+$quero = "SELECT a.ID,a.UserID,a.Type,a.ObjID,a.FollowTime,u.name,u.articles
+    FROM yunbbs_follow a 
+    LEFT JOIN yunbbs_categories u ON a.ObjID=u.id
+    WHERE a.UserID=$cur_uid and Type=1 ORDER BY a.FollowTime DESC";
+$leavin = $DBS->query($quero);
+$leavindb=array();
+while ($leaving = $DBS->fetch_array($leavin)) {
+	// 格式化内容
+	$leavindb[] = $leaving;
+}
+unset($leaving);
+$DBS->free_result($leavin);
+
+$follonod = "SELECT fnod FROM yunbbs_users WHERE id='$cur_uid'";
+$nod_obj = $DBS->fetch_one_array($follonod);
+
+
 
 // 页面变量
 $title = '我关注的话题';

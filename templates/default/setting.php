@@ -2,6 +2,9 @@
 if (!defined('IN_SAESPOT')) exit('error: 403 Access Denied'); 
 
 echo '
+<div class="main-wrap">
+    <div class="main">
+        <div class="main-content">
 <a name="1"></a>
 <div class="title"><i class="fa fa-angle-double-right"></i> 个人信息</div>
 <div class="main-box">
@@ -18,7 +21,7 @@ echo '
         <td width="auto" align="left"><input type="text" class="sl w200" name="email" value="',htmlspecialchars(stripslashes($cur_user['email'])),'" /> 取回密码用</td>
     </tr>
     <tr>
-        <td width="120" align="right">个人网站</td>
+        <td width="120" align="right">个性签名</td>
         <td width="auto" align="left"><input type="text" class="sl" name="url" value="',htmlspecialchars(stripslashes($cur_user['url'])),'" /></td>
     </tr>
     <tr>
@@ -58,7 +61,6 @@ echo '
     
 </tbody></table>
 </form>
-
 </div>';
 
 if($cur_user['password']){
@@ -129,83 +131,5 @@ echo '
 
 }
 
-/*
-|--------------------------------------------------------------------------
-| Add Google Autheticator 2-factor authentication on Temp
-|--------------------------------------------------------------------------
-|
-*/
-
-if($cur_user['gauthsecret'] != Null){
-
-echo '
-<a name="4"></a>
-<div class="title"><i class="fa fa-angle-double-right"></i> 关闭二次验证 </div>
-<div class="main-box">
-<p class="red">',$tip4,'</p>
-
-<form method="post" action="',$_SERVER["REQUEST_URI"],'#4">
-<input type="hidden" name="action" value="chgauth" />
-<input type="hidden" name="gsecret" value="',$cur_user["gauthsecret"],'" />
-
-<table cellpadding="5" cellspacing="8" border="0" width="100%" class="fs12">
-    <tbody>
-    <tr>
-        <td width="120" align="right">请输入Google Auth中显示的验证码以便确认</td>
-        <td width="auto" align="left"><input type="text" class="sl" name="gauthcode" value="" /></td>
-    </tr>
-    <tr>
-        <td width="120" align="right"></td>
-        <td width="auto" align="left"><input type="submit" value="确定关闭二次登录" name="submit" class="textbtn" /></td>
-    </tr>
-    
-</tbody></table>
-</form>
-
-</div>';
-
-}else{
-
-$ga = new GoogleAuth();
-
-$secret = $ga->createSecret();
-$qrCodeUrl = $ga->createQRCode($options['name'], $secret);
-
-echo '
-<a name="4"></a>
-<div class="title"><i class="fa fa-angle-double-right"></i> 设置二次验证 </div>
-<div class="main-box">
-<p class="red">',$tip4,'</p>
-
-<form method="post" action="',$_SERVER["REQUEST_URI"],'#4">
-<input type="hidden" name="action" value="setgauth" />
-<input type="hidden" name="gsecret" value="',$secret,'" />
-
-<table cellpadding="5" cellspacing="8" border="0" width="100%" class="fs12" height="120px">
-    <tbody>
-    <tr>
-        <td width="120" align="right">请输入Google Auth中显示的验证码以便确认</td>
-        <td width="auto" align="left"><input type="text" class="sl" name="gauthcode" value="" /></td>
-    </tr>
-    <tr>
-        <td width="120" align="right"></td>
-        <td width="auto" align="left"><input type="submit" value="确认设置二次登录" name="submit" class="textbtn" /></td>
-    </tr>
-    
-</tbody></table>
-
-<div id="output"></div>
-</form>
-
-<script src="/static/js/jquery.qrcode.min.js" type="text/javascript"></script>
-
-<script>
-    jQuery(function(){
-        jQuery(\'#output\').qrcode({width: 110,height: 110,text: "',$qrCodeUrl,'"});
-    })
-</script>
-</div>';
-
-}
 
 ?>

@@ -45,30 +45,20 @@ $table_msgCount = $DBS->fetch_one_array("SELECT count(distinct ReferID) as count
 
 $total_msg = $table_msgCount['count'];
 
-// 处理正确的页数
-// 第一页是1
-$total_page = ceil($total_msg/$options['list_shownum']);
-
-if($page<=0 || $total_page == 0){
-     $page = 1;
-}elseif($page>$total_page){
-    $page = $total_page;
-}
-
 $query_sql = "SELECT m.*,count(1) as count,u1.avatar FROM `yunbbs_messages` m
                 inner join yunbbs_users u1 on m.FromUID=u1.id
                 where fromuid=$cur_uid or touid=$cur_uid
                 group by referid
-                order by IsRead,id desc limit ".($page-1)*$options['list_shownum'].",".$options['list_shownum'];
+                order by IsRead,id desc";
 
 $query = $DBS->query($query_sql);
 $messagedb=array();
 while ($message = $DBS->fetch_array($query)) {
     // 格式化内容
     if($message['IsRead'] == '0' && $message['ToUID'] == $cur_uid){
-         $message['Title'] = "<span class=\"label label-success\">未读</span>";
+         $message['Title'] = "未读";
      }else{
-        $message['Title']='';
+        $message['Title']='已读';
      }
     $message['AddTime'] = showtime($message['AddTime']);
     $messagedb[] = $message;

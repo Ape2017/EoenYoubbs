@@ -4,7 +4,6 @@ define('CURRENT_DIR', pathinfo(__FILE__, PATHINFO_DIRNAME));
 
 require(CURRENT_DIR . '/config.php');
 require(CURRENT_DIR . '/common.php');
-require(CURRENT_DIR . '/include/GoogleAuth/GoogleAuth.php');
 
 if (!$cur_user) exit('error: 401 login please');
 if ($cur_user['flag']==0){
@@ -26,7 +25,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     if($action == 'info'){
         $email = addslashes(filter_chr(trim($_POST['email'])));
         $url = char_cv(filter_chr(trim($_POST['url'])));
-        $about = addslashes(trim($_POST['about']));
+        @$about = addslashes(trim($_POST['about']));
         
         if($DBS->unbuffered_query("UPDATE yunbbs_users SET email='$email', url='$url', about='$about' WHERE id='$cur_uid'")){
             //更新缓存
@@ -183,64 +182,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
             $tip3 = '请填写完整，登录密码、重复密码';
         }
     }
-
-	/*
-    |--------------------------------------------------------------------------
-    | Add Google Autheticator 2-factor authentication on Temp
-    |--------------------------------------------------------------------------
-    |
-    */
-    else if($action == 'chgauth'){
-        $gcode = addslashes(trim($_POST['gauthcode']));
-        $gsecret = addslashes(trim($_POST['gsecret']));
-
-        $ga = new GoogleAuth();
-
-        if($gcode){
-
-            $checkResult = $ga->verifyCode($gsecret, $gcode, 1);    // 2 = 2*30sec clock tolerance
-
-            if ($checkResult) {
-                if($DBS->unbuffered_query("UPDATE yunbbs_users SET gauthsecret=Null WHERE id='$cur_uid'")){
-                    //更新缓存和cookie
-                    $cur_user['gauthsecret'] = $gsecret;
-                    $tip4 = '成功取消Google Auth二次验证！';
-                }else{
-                    $tip4 = '数据保存失败，请稍后再试！';
-                }
-            } else {
-                $tip4 = '您的Google Auth验证失败，请联系管理员！';
-            }
-        }else{
-            $tip4 = '请输入Google Auth验证码！';
-        }
-
-    }else if($action == 'setgauth'){
-        $gcode = addslashes(trim($_POST['gauthcode']));
-        $gsecret = addslashes(trim($_POST['gsecret']));
-
-        $ga = new GoogleAuth();
-
-        if($gcode){
-
-            $checkResult = $ga->verifyCode($gsecret, $gcode, 1);
-
-            if ($checkResult) {
-                if($DBS->unbuffered_query("UPDATE yunbbs_users SET gauthsecret='$gsecret' WHERE id='$cur_uid'")){
-                    //更新缓存和cookie
-                    $cur_user['gauthsecret'] = null;
-                    $tip4 = '成功设置Google Auth二次验证！';
-                }else{
-                    $tip4 = '数据保存失败，请稍后再试！';
-                }
-            } else {
-                $tip4 = '您的Google Auth验证失败，请联系管理员！';
-            }
-        }else{
-            $tip4 = '请输入Google Auth验证码！';
-        }
-
-    }// GAuth else if Done
 
 }
 

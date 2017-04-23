@@ -4,22 +4,7 @@ define('CURRENT_DIR', pathinfo(__FILE__, PATHINFO_DIRNAME));
 
 include(CURRENT_DIR . '/config.php');
 include(CURRENT_DIR . '/common.php');
-
-/*
-// 屏蔽下面几行可以通过 用户名和密码 注册
-if(($options['qq_appid'] && $options['qq_appkey']) || ($options['wb_key'] && $options['wb_secret'])){
-    header("content-Type: text/html; charset=UTF-8");
-    echo '请用 ';
-    if($options['wb_key'] && $options['wb_secret']){
-        echo '&nbsp;<a href="/wblogin">微博登录</a>';
-    }
-    if($options['qq_appid'] && $options['qq_appkey']){
-        echo '&nbsp;<a href="/qqlogin">QQ登录</a>';
-    }
-    echo '&nbsp;<a href="/">返回首页</a>';
-    exit;
-}
-*/
+include(CURRENT_DIR . '/include/avatars/avatars.php');
 
 if($cur_user){
     header('location: /');
@@ -41,6 +26,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     $pw = addslashes(trim($_POST["pw"]));
     $pw2 = addslashes(trim($_POST["pw2"]));
     $seccode = intval(trim($_POST["seccode"]));
+	
+	$Avatar = new Md\MDAvatars($name, 100);
+	
     if($name && $pw && $pw2 && $seccode){
         if($pw === $pw2){
             if(strlen($name)<21 && strlen($pw)<32){
@@ -83,7 +71,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         }else{
             $flag = 5;
         }
-        $DBS->query("INSERT INTO yunbbs_users (id,name,flag,password,regtime) VALUES (null,'$name', $flag, '$pwmd5', $timestamp)");
+        $DBS->query("INSERT INTO yunbbs_users (id,name,flag,password,regtime,logintime) VALUES (null,'$name', '$flag', '$pwmd5', $timestamp, '$timestamp')");
         $new_uid = $DBS->insert_id();
         if($new_uid == 1){
             $DBS->unbuffered_query("UPDATE yunbbs_users SET flag = '99' WHERE id='1'");
@@ -93,6 +81,17 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         //设置cookie
         $db_ucode = md5($new_uid.$pwmd5.$timestamp.'00');
         $cur_uid = $new_uid;
+		
+		//发一个私信给新注册用户
+		$DBS->query("INSERT INTO yunbbs_messages (ID,FromUID,ToUID,FromUName,ToUName,title,content,addtime,ReferID) VALUES (null,1,'$cur_uid','eoen','$name', '', '感谢您注册为网站正式用户！请勿发布无任何意义的测试帖。如有技术问题请加我QQ：1172007555', $timestamp,10000002)");
+		$DBS->query("INSERT INTO yunbbs_messages (ID,FromUID,ToUID,FromUName,ToUName,title,content,addtime,ReferID) VALUES (null,1,'$cur_uid','eoen','$name', '', '为了给大家提供更好的社区软件，EoenYoubbs v2.3版本采用赞助下载方式，限时赞助99元既可获得整套前后端源码文件，后期免费提供一定的技术支持服务。需要的朋友可以咨询QQ：1172007555（微信同号）<br/>EoenYoubbs v2.2版本GitHub地址：https://github.com/eoen/EoenYoubbs', $timestamp,10000002)");
+		
+		//设置一个默认用户头像
+		$Avatar->Save(CURRENT_DIR .'/avatar/large/'.$cur_uid.'.png', 73);
+		$Avatar->Save(CURRENT_DIR .'/avatar/normal/'.$cur_uid.'.png', 48);
+		$Avatar->Save(CURRENT_DIR .'/avatar/mini/'.$cur_uid.'.png', 24);
+		$DBS->unbuffered_query("UPDATE yunbbs_users SET avatar = '$cur_uid' WHERE id='$cur_uid'");
+
         setcookie("cur_uid", $cur_uid, $timestamp+ 86400 * 365, '/');
         setcookie("cur_uname", $name, $timestamp+86400 * 365, '/');
         setcookie("cur_ucode", $db_ucode, $timestamp+86400 * 365, '/');

@@ -61,7 +61,7 @@ if($tag_obj['articles']){
     }
     $ids = implode(',', $id_arr);
     //exit($ids);
-    $query_sql = "SELECT a.id,a.uid,a.cid,a.ruid,a.title,a.addtime,a.edittime,a.comments,a.isred,c.name as cname,u.avatar as uavatar,u.name as author,ru.name as rauthor
+    $query_sql = "SELECT a.id,a.uid,a.cid,a.ruid,a.title,a.content,a.views,a.addtime,a.edittime,a.comments,a.isred,c.name as cname,u.avatar as uavatar,u.name as author,ru.name as rauthor
         FROM `yunbbs_articles` a
         LEFT JOIN `yunbbs_categories` c ON c.id=a.cid
         LEFT JOIN `yunbbs_users` u ON a.uid=u.id
@@ -80,6 +80,8 @@ if($tag_obj['articles']){
         // 格式化内容
         $article['addtime'] = showtime($article['addtime']);
         $article['edittime'] = showtime($article['edittime']);
+		$artid = $article['id'];
+		$article['content'] = set_content(mb_strlen($article['content'], 'utf-8') > 200 ? mb_substr($article['content'], 0, 200, 'utf-8').'<p class="topic-more"><a href="/topics/'.$artid.'">阅读全部<i></i></a></p>' : $article['content'], 1);
         $articledb[$article['id']] = $article;
     }
     unset($article);
@@ -87,7 +89,7 @@ if($tag_obj['articles']){
 }
 
 // 页面变量
-$title = '标签： '.$tag.' - part '.$page;
+$title = '标签：'.$tag;
 $newest_nodes = get_newest_nodes();
 if(count($newest_nodes)==$options['newest_node_num']){
     $bot_nodes = get_bot_nodes();

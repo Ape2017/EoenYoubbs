@@ -14,7 +14,8 @@ RewriteRule ^follow/nodes$ follownodes.php [L]
 RewriteRule ^usermessage/$ usermessage.php [L]
 
 RewriteCond %{QUERY_STRING} ^(.*)
-RewriteRule ^newmessage/([0-9]+)$ newmessage.php?cid=$1&%1 [L]
+#RewriteRule ^newmessage/([0-9]+)$ newmessage.php?cid=$1&%1 [L]
+RewriteRule ^messageajax/([0-9]+)$ messageajax.php?cid=$1&%1 [L]
 
 RewriteRule ^tag/([^\/]+)(/([0-9]+))?$ /tagpage.php?tag=$1&page=$3 [L]
 RewriteRule ^notifications$ notifications.php [L]
