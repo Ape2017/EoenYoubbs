@@ -181,7 +181,7 @@ a.pagecurrent{color:#000}
 .commont-avatar img{max-height:42px;max-width:42px;border-radius:50px}
 .ios-comment-name a.user{font-size:13px;font-weight:600}
 .ios-comment-name span{font-size:9pt;display:block;color:#999;padding:8px 0}
-.ios-commont-content{padding:0 5px}
+.ios-commont-content{padding:0 50px}
 .ios-commont-content p{color:#666;font-size:15px;line-height:22px;margin-bottom:9pt}
 .home-box-list p.ncoms{color:#999;padding:0 15px;margin-bottom:0}
 .main-box-content-text iframe.video{width:100%;height:25pc}
