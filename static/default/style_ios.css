@@ -143,7 +143,7 @@ p .linkk{color:#444;padding:1px;border:1px solid #888;margin:2px;background-colo
 .topic-content{WORD-WRAP:break-word;font-size:15px;margin-top:15px}
 .topic-content h1{font-size:18px;line-height:22px;font-weight:700;color:#333}
 .topic-content p.photos{font-size:17px;padding:15px 0}
-.topic-content p { margin: 0; }
+.topic-content p { margin:2px 0; }
 .topic-content p a{color:#4078c0}
 .main-box .topic-content p img { max-width: 100%; }
 .emoji{width:28px;height:28px;vertical-align:middle}
