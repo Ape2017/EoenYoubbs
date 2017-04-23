@@ -465,7 +465,7 @@ ul.layui-tab-title{background-color:#fff;border-bottom:1px solid #f5f5f5}
 p.topic-more a{font-size:14px;line-height:20px;display:block;color:#666;border:1px solid #e2e2e2;width:72px;height:20px;padding:5px 10px;border-radius:3px}
 .topic-more a i{background-image:url(img/ico.png);background-repeat:no-repeat;background-position:-282px -223px;height:25px;width:25px;display:inline-block;font-size:0;margin:-3px 0 0 5px;position:absolute}
 .new-post-page-form input#filetoupload{height:34px;opacity:0;z-index:999999;position:relative;width:90pt;cursor:pointer}
-.new-post-page-form span.upload{color:#666;padding:13px 15px 13px 40px;position:absolute;margin:-40px 5px;border:1px dashed #e2e2e2;border-radius:2px;font-size:15px;width:60px;left:0}
+.new-post-page-form span.upload { color: #666; padding: 13px 15px 13px 40px; position: absolute; margin: 0; -webkit-margin-before: -3em; border: 1px dashed #e2e2e2; border-radius: 2px; font-size: 15px; width: 60px; left: 0; }
 .new-post-page-form span.upload i{background-image:url(img/ico.png);background-repeat:no-repeat;background-position:-244px -219px;height:25px;width:25px;display:inline-block;font-size:0;position:absolute;margin:-10px 0 0 -30px}
 .new-post-page-form span#upload-prompt{position:absolute;margin:10px 0 0 6px}
 .home-slider-new-comments .msa-sd{position:relative;border-bottom:1px dashed #e5e5e5;margin-top:10px}
