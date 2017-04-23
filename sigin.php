@@ -82,10 +82,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         $db_ucode = md5($new_uid.$pwmd5.$timestamp.'00');
         $cur_uid = $new_uid;
 		
-		//发一个私信给新注册用户
-		$DBS->query("INSERT INTO yunbbs_messages (ID,FromUID,ToUID,FromUName,ToUName,title,content,addtime,ReferID) VALUES (null,1,'$cur_uid','eoen','$name', '', '感谢您注册为网站正式用户！请勿发布无任何意义的测试帖。如有技术问题请加我QQ：1172007555', $timestamp,10000002)");
-		$DBS->query("INSERT INTO yunbbs_messages (ID,FromUID,ToUID,FromUName,ToUName,title,content,addtime,ReferID) VALUES (null,1,'$cur_uid','eoen','$name', '', '为了给大家提供更好的社区软件，EoenYoubbs v2.3版本采用赞助下载方式，限时赞助99元既可获得整套前后端源码文件，后期免费提供一定的技术支持服务。需要的朋友可以咨询QQ：1172007555（微信同号）<br/>EoenYoubbs v2.2版本GitHub地址：https://github.com/eoen/EoenYoubbs', $timestamp,10000002)");
-		
 		//设置一个默认用户头像
 		$Avatar->Save(CURRENT_DIR .'/avatar/large/'.$cur_uid.'.png', 73);
 		$Avatar->Save(CURRENT_DIR .'/avatar/normal/'.$cur_uid.'.png', 48);
