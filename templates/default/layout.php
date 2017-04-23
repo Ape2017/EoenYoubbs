@@ -64,7 +64,7 @@ ob_start();echo '
         <div class="c"></div>
     </div>
     <div class="c"></div>
-</div>';
+</div></div>';
 echo'<div class="footer-wrap">
 		<div class="footer">
 			<div class="sep10"></div>
