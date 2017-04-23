@@ -96,7 +96,7 @@ img.avatar{border-radius:4px}
 #output{float:right;margin-top:-7.5em;padding:0 10px 40px 0}
 .home-box-topic{float:left;margin-bottom:30px}
 .home-box-topic-avatar{float:left;width:5pc}
-.home-box-topic-avatar img{border-radius:50px}
+.home-box-topic-avatar img { border-radius: 50px; height: 73px; width: 73px; }
 .home-box-bgmore{float:left;width:545px;background-color:#fff;border-radius:3px;border:1px solid rgba(0,0,0,.0975);margin-left:10px;position:relative}
 .home-box-bgmore .triangle{left:-13px;border-right:9pt solid rgba(0,0,0,.0975)}
 .home-box-bgmore .triang,.home-box-bgmore .triangle{position:absolute;top:5px;border-bottom:10px solid transparent;border-top:10px solid transparent;border-left:none}
@@ -385,7 +385,7 @@ a.leftnotic{float:left}
 .ios-nodes-btn{float:right;margin-top:60px;text-align:center}
 .ios-nodes-btn button#btnFollow{border:1px solid #e2e2e2;padding:10px 15px;font-size:13px;color:#666;cursor:pointer;margin-bottom:5px}
 .ios-nodes-imgs p b{font-size:9pt;color:#999}
-.ios-slider-box-follw img{border-radius:50px;width:45px;margin:3px 5px}
+.ios-slider-box-follw img { border-radius: 50px; width: 45px; height: 45px; margin: 3px 5px; }
 .layui-tab-brief>.layui-tab-title .layui-this{color:#333;font-weight:600}
 ul.layui-tab-title{background-color:#fff;border-bottom:1px solid #f5f5f5}
 .layui-tab-brief>.layui-tab-more li.layui-this:after,.layui-tab-brief>.layui-tab-title .layui-this:after{border-bottom:2px solid #666}
