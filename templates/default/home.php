@@ -73,7 +73,7 @@ echo '
 		//个人中心
 		if ($cur_user && $cur_user['flag'] >= 5) {
 			echo '
-				<div class="sider-box">
+				<div class="sider-box ufo">
 					<div class="slider-user-info">
 						<div class="slider-user-bg">
 							<a href="/user/', $cur_user['id'], '" alt="', $cur_user['name'], '">

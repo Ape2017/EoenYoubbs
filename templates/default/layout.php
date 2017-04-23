@@ -213,6 +213,14 @@ $(document).ready(function(){
 		$("#closes").remove();
 	});
 });
+$(window).scroll( function (){   
+var  h_num=$(window).scrollTop();   
+     if (h_num>1300){   
+        $( ".ufo" ).addClass( "sio" );       
+    } else {   
+        $( ".ufo" ).removeClass( "sio" );            
+    }              
+});  
 </script>
 </body>
 </html>';

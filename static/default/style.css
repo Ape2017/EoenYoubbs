@@ -253,6 +253,7 @@ a.pagecurrent{color:#000}
 .main-sider{float:right;width:300px;font-size:9pt}
 .notpad{padding:6px 5px 0 0;color:#db2f2f;font-size:15px}
 .sider-box{border:1px solid rgba(0,0,0,.0975);margin-bottom:20px;border-radius:2px;background-color:#fff}
+.sio { position: fixed; width: 300px; }
 .sider-box-title{border-bottom:1px solid rgba(0,0,0,.0975);margin-bottom:15px;padding:15px 0 15px 20px;font-size:14px;color:#666}
 .sider-box-title a{color:#465567}
 .sider-box-content{margin-bottom:10px;padding:0 10px}
