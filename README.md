@@ -7,5 +7,5 @@ EoenYoubbs是免费软件也意味着不会给作者带来任何收入。如果�
 
 ![微信赞助][1] ![支付宝赞助][2]
 
-  [1]: http://youbbs.eoen.org/upload/files/1491763420.jpg
-  [2]: http://youbbs.eoen.org/upload/files/1491763432.jpg
+  [1]: https://youbbs.eoen.org/upload/files/1491763420.jpg
+  [2]: https://youbbs.eoen.org/upload/files/1491763432.jpg
