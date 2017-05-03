@@ -5,4 +5,4 @@ EoenYoubbs是免费软件也意味着不会给作者带来任何收入。如果�
 
 赞助是自愿行为，不限赞助金额也没有任何实质的回报，所以没有赞助的朋友也不要有任何心理负担
 
-![赞助作者](https://youbbs.eoen.org/upload/files/1491763499.jpg)
+<img src="https://youbbs.eoen.org/upload/files/1491763499.jpg" />
