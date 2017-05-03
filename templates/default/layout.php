@@ -17,6 +17,7 @@ ob_start();echo '
 	<link href="/static/layui/css/layui.css" rel="stylesheet" type="text/css" />
 	<link href="/static/default/style.css" rel="stylesheet" type="text/css" />
 	<link href="https://cdn.webfont.youziku.com/webfonts/nomal/99475/29785/58e4bf26f629db0f383d2716.css" rel="stylesheet" type="text/css" />
+	<link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 	<script src="',$options['jquery_lib'],'" type="text/javascript"></script>
 	<script src="/static/js/jquery.contip.js" type="text/javascript"></script>
 	<script src="/static/js/jquery.lazylinepainter-1.5.1.min.js" type="text/javascript"></script>
