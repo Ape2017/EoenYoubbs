@@ -66,22 +66,24 @@ ob_start();echo '
     </div>
     <div class="c"></div>
 </div></div>';
-echo'<div class="footer-wrap">
-		<div class="footer">
-			<div class="sep10"></div>
-			<div class="sep10"></div>
-			Lovingly made by <a href="https://github.com/eoen/EoenYoubbs" target="_blank">EOEN</a><div class="sep5"></div>
-			Proudly Powered by <a href="https://www.youbbs.org/" target="_blank">YouBBS</a><div class="footericp">';
-			if($options['icp']){
-				echo '<div class="sep5"></div><a href="http://www.miibeian.gov.cn/" target="_blank" rel="nofollow">',$options['icp'],'</a>';
-			}
-			if($options['show_debug']){
-				$mtime = explode(' ', microtime());
-				$totaltime = number_format(($mtime[1] + $mtime[0] - $starttime), 6);
-				echo '<div class="sep5"></div>Processed in ',$totaltime,' second(s), ',$DBS->querycount,' queries';
-			}echo'
-		</div>
-	</div>';
+echo'<script>
+	var Words ="%3Cdiv%20class%3D%22footer-wrap%22%3E%0A%09%09%3Cdiv%20class%3D%22footer%22%3E%0A%09%09%09%3Cdiv%20class%3D%22sep10%22%3E%3C/div%3E%0A%09%09%09%3Cdiv%20class%3D%22sep10%22%3E%3C/div%3E%0A%09%09%09Lovingly%20made%20by%20%3Ca%20href%3D%22https%3A//github.com/eoen/EoenYoubbs%22%20target%3D%22_blank%22%3EEOEN%3C/a%3E%3Cdiv%20class%3D%22sep5%22%3E%3C/div%3E%0A%09%09%09Proudly%20Powered%20by%20%3Ca%20href%3D%22https%3A//www.youbbs.org/%22%20target%3D%22_blank%22%3EYouBBS%3C/a%3E%3Cdiv%20class%3D%22footericp%22%3E"
+	function OutWord(){
+ 		var NewWords;
+ 		NewWords = unescape(Words);
+    	document.write(NewWords);
+	} 
+	OutWord();
+</script>';
+if($options['icp']){
+	echo '<div class="sep5"></div><a href="http://www.miibeian.gov.cn/" target="_blank" rel="nofollow">',$options['icp'],'</a>';
+}
+if($options['show_debug']){
+	$mtime = explode(' ', microtime());
+	$totaltime = number_format(($mtime[1] + $mtime[0] - $starttime), 6);
+	echo '<div class="sep5"></div>Processed in ',$totaltime,' second(s), ',$DBS->querycount,' queries';
+}echo'
+</div></div>';
 if($options['analytics_code']){
     echo $options['analytics_code'];
 }
