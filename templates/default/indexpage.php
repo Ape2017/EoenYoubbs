@@ -61,7 +61,7 @@ echo '
 					echo '<a class="float-left">...</a>';
 					echo '<a href="/page/', $taltol_page, '" class="float-left">', $taltol_page, '</a>';
 				}
-				echo '<a href="/page/',@page+1,'" class="float-right">下一页 &raquo;</a>';
+				echo '<a href="/page/',$page+1,'" class="float-right">下一页 &raquo;</a>';
 				echo '</div>';
 				echo '<div class="c"></div>
 					</div>';
