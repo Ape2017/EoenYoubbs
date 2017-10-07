@@ -165,8 +165,8 @@ span.right{float:right}
 .node-img{float:left;margin:0 10px 10px 0;height:73px;width:73px}
 .node-img img{max-width:73px;max-height:73px;border-radius:4px}
 .node-data{float:left;width:35pc;font-size:9pt;color:#999}
-.pagination {text-align: center;}
-.pagination a{display:block;padding:8px 10px;border:1px solid #e3e3e3;margin:8px 5px 8px 0;color:#555;background-color:#fff;white-space:nowrap;border-radius:2px;font-size:9pt;line-height:1.5em;text-shadow:0 1px 1px #fff;text-decoration:none;font-weight:700;-moz-box-shadow:0 1px 2px rgba(66,66,77,.3)}
+.pagination { display: inherit; text-align: center; height: 20px; margin: 2px 20px; }
+.pagination a { display: block; padding: 4px 6px; border: 1px solid #e3e3e3; margin: 10px 0 10px 0; color: #555; background-color: #fff; white-space: nowrap; border-radius: 2px; font-size: 9pt; line-height: 1.5em; text-shadow: 0 1px 1px #fff; text-decoration: none; font-weight: 700; -moz-box-shadow: 0 1px 2px rgba(66,66,77,.3); }
 .pagination a:hover{border:1px solid #868686;text-decoration:none;color:#000;background-color:#efefef}
 .pagediv {width:670px;margin:0 auto;}
 .pagediv a{float:none;display:inline}
@@ -190,7 +190,7 @@ a.pagecurrent{color:#000}
 .main-box-closecomment{padding:15px 15px 10px}
 .main-box-closecomment p.ncoms{font-size:14px;color:#666;text-align:center}
 .main-box-closecomment .formtext img{width:55px;border-radius:50px;float:left}
-.main-box-closecomment p textarea#id-content{border:0;border-bottom:1px solid rgba(0,0,0,.0975);width:470px;font-size:15px;color:#333;height:30px;outline:0;margin:15px 5px}
+.main-box-closecomment p textarea#id-content{border:0;border-bottom:1px solid rgba(0,0,0,.0975);width:500px;font-size:15px;color:#333;height:30px;outline:0;margin:15px 5px}
 .ios-commont-content a.user{font-size:9pt;font-weight:600}
 .ios-bg-margin{padding:30px 0}
 .ios-member-bg{background-image:url(img/ignasi.png);width:100%;height:274px;text-align:center}
